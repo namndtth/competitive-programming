@@ -1,24 +1,35 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
+
+typedef long long ll;
+
 int main()
 {
-    int t;
-    cin >> t;
+    freopen("data.inp", "r", stdin);
+
+    int t; cin >> t;
+
     while (t--)
     {
-        long long n, k;
+        int n, k;
         cin >> n >> k;
         if (n > k)
-            cout << k;
+            cout << k << endl;
+        else if (n == k)
+        {
+            cout << n + 1 << endl;
+        }
         else
         {
-            long long ans;
-            long long nguyen = k / (n - 1);
-            long long du = k - (n - 1) * nguyen;
-            ans = (du == 0 ? n * nguyen - 1 : n * nguyen + du);
-            cout << ans;
+            int num_cycles = k / (n - 1);
+
+            int rmd = k - (n - 1) * num_cycles;
+
+            if (rmd == 0)
+                rmd -= 1;
+
+            cout << n * num_cycles + rmd << endl;
         }
-        cout << endl;
     }
     return 0;
 }
