@@ -1,1 +1,7 @@
 .vscode/
+.cph/
+cmake-build-debug/
+tempCodeRunnerFile.cpp
+.idea/
+input.txt
+*.exe
