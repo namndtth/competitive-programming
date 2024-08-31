@@ -1,33 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
-ll arr1[26], arr2[26][26];
+#define FOR(i, a, b) for (int i = a; i < b; i++)
+#define FORN(i, a, b) for (int i = a; i <= b; i++)
+#define FORR(i, b, a) for (int i = b - 1; i >= a; i--)
+#define FORRN(i, b, a) for (int i = b; i >= a; i--)
+
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using ll = long long;
+using vll = vector<ll>;
+using vii = vector<pair<int, int>>;
 
 int main()
 {
-    string s;
-    cin >> s;
-    for (int i = 0; i < s.length(); i++)
-    {
-        int c = s[i] - 'a';
-        for (int j = 0; j < 26; j++)
-            arr2[j][c] += arr1[j];
-        arr1[c]++;
-    }
+	vll cnt(26, 0);
+	vector<vll> cnt2d(26, vll(26));
 
-    ll ans = 0;
-    for (int i = 0; i < 26; i++)
-        ans = max(ans, arr1[i]);
+	string st;
+	cin >> st;
 
-    for (int i = 0; i < 26; i++)
-    {
-        for (int j = 0; j < 26; j++)
-            // ans = max(ans, arr2[i][j]);
-            cout << arr2[i][j] << " ";
-        cout << endl;
-    }
+	const int n = st.size();
 
-    cout << ans << endl;
-    return 0;
+	ll ans = LLONG_MIN;
+	FOR(i, 0, n)
+	{
+		int ch = st[i] - 'a';
+		cnt[ch]++;
+		cnt2d[ch][ch] = max(cnt[ch], cnt[ch] * (cnt[ch] - 1) / 2);
+		FOR(j, 0, 26)
+		{
+			if (ch != j) cnt2d[ch][j] += cnt[j];
+			ans = max(ans, cnt2d[ch][j]);
+		}
+	}
+	cout << ans << endl;
+	return EXIT_SUCCESS;
 }

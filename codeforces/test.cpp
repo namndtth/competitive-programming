@@ -1,31 +1,30 @@
-//
-// Created by NAMND on 5/28/2023.
-//
 #include <bits/stdc++.h>
 using namespace std;
 
-class Singleton
+class Foo
 {
-private:
-    int a = 5;
-    static Singleton *theInstance;
-    Singleton() {}
 public:
-    static Singleton *Instance()
-    {
-        if (theInstance == nullptr)
-            theInstance = new Singleton();
-        return theInstance;
-    }
-    void helloworld()
-    {
-        cout << theInstance->a << endl;
-    }
+	Foo()
+	{
+		m_x = 5;
+	}
+	void print()
+	{
+		cout << m_x << endl;
+	}
+private:
+	int m_x;
 };
 
-Singleton *Singleton::theInstance = nullptr;
+void print()
+{
+	cout << "hallo";
+}
 int main()
 {
-    Singleton* s = Singleton::Instance();
-    s->helloworld();
+	void (*funcPtr)();
+	funcPtr = &print;
+	funcPtr();
+
+	return EXIT_SUCCESS;
 }

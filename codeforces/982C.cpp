@@ -1,57 +1,67 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e5 + 10;
+#define FOR(i, a, b) for (int i = a; i < b; i++)
+#define FORN(i, a, b) for (int i = a; i <= b; i++)
+#define FORD(i, b, a) for (int i = b - 1; i >= a; i--)
+#define FORDN(i, b, a) for (int i = b; i >= a; i--)
 
-vector<int> adj[N];
-vector<int> par;
-vector<int> num_children;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using ll = long long;
 
-int ans;
+vvi adj;
+vi num_children;
+vi used;
+
 int dfs(int u)
 {
-    for (int i = 0; i < (int)adj[u].size(); i++)
-    {
-        int v = adj[u][i];
-        if (v == par[u])
-            continue;
+	if (used[u])
+		return 0;
 
-        par[v] = u;
-        num_children[u] += 1 + dfs(v);
-    }
-    return num_children[u];
+	used[u] = 1;
+	FOR(i, 0, adj[u].size())
+	{
+		int v = adj[u][i];
+		if (u == v)
+			continue;
+		num_children[u] += dfs(v);
+	}
+	return ++num_children[u];
 }
 
 int main()
 {
-    freopen("data.inp", "r", stdin);
+	int n;
+	cin >> n;
 
-    int n; cin >> n;
+	adj.resize(n);
+	num_children.assign(n, 0);
+	used.assign(n, 0);
 
-    int u, v;
+	int u, v;
+	FOR(i, 0, n - 1)
+	{
+		cin >> u >> v;
+		u--, v--;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
 
-    ans = 0;
+	if (n % 2 == 0)
+	{
+		dfs(0);
 
-    par.assign(n, -1);
-    num_children.assign(n, 0);
-
-    for (int i = 0; i < n - 1; i++)
-    {
-        cin >> u >> v;
-        --u, --v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    if (n % 2 != 0)
-    {
-        cout << -1 << endl;
-        return 0;
-    }
-    dfs(0);
-    int ans = -1;
-    for (int i = 0; i < (int)num_children.size(); i++)
-        if (num_children[i] % 2 != 0)
-            ans++;
-    cout << ans << endl;
-    return 0;
+		int num_ccs = 0;
+		FOR(i, 1, n)
+		{
+			if (num_children[i] % 2 == 0)
+				num_ccs++;
+		}
+		cout << num_ccs << endl;
+	}
+	else {
+		cout << "-1" << endl;
+	}
+	return EXIT_SUCCESS;
 }

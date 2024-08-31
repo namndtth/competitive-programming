@@ -1,29 +1,38 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define FOR(i, a, b) for (int i = a; i < b; i++)
+#define FORN(i, a, b) for (int i = a; i <= b; i++)
+#define FORD(i, b, a) for (int i = b - 1; i >= a; i--)
+#define FORDN(i, b, a) for (int i = b; i >= a; i--)
+
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using ll = long long;
+
 int main()
 {
-    int tc; cin >> tc;
-    while (tc--)
-    {
-        int n; cin >> n;
-        vector<int> a(n);
-        int difference = 0;
-        int ans = -1;
-        for (int i = 0; i < n; i++)
-            cin >> a[i];
-        for (int i = 1; i < n; i++)
-        {
-            if (a[i] < a[i - 1])
-            {
-                difference = max(difference, a[i - 1] - a[i]);
-                a[i] = a[i - 1];
-            }
-        }
-        if (difference == 0)
-            cout << "0\n";
-        else
-            cout << floor(log2(difference)) + 1 << endl;
-    }
-    return 0;
+	int tc;
+	cin >> tc;
+	while (tc--)
+	{
+		int n;
+		cin >> n;
+		int mx = -2e9;
+		int val = 0;
+		FOR(i, 0, n)
+		{
+			int a;
+			cin >> a;
+			mx = max(mx, a);
+			val = max(val, mx - a);
+		}
+		ll res = 0;
+		while ((1LL << res) - 1 < val)
+		{
+			res++;
+		}
+		cout << res << endl;
+	}
+	return 0;
 }
