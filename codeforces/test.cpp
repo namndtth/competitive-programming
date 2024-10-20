@@ -1,30 +1,15 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
-class Foo
+double square_root(double x)
 {
-public:
-	Foo()
+	if (x < 0)
 	{
-		m_x = 5;
+		throw std::out_of_range("x<0");
 	}
-	void print()
-	{
-		cout << m_x << endl;
-	}
-private:
-	int m_x;
-};
-
-void print()
-{
-	cout << "hallo";
+	return sqrt(x);
 }
-int main()
-{
-	void (*funcPtr)();
-	funcPtr = &print;
-	funcPtr();
 
-	return EXIT_SUCCESS;
-}
+future<double> f = async(square_root, -1);
+double y = f.get();
