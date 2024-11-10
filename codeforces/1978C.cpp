@@ -2,63 +2,49 @@
 using namespace std;
 
 using ll = long long;
-void print_array(const vector<ll>& a)
-{
-	for (auto& x : a)
-		cout << x << " ";
-	cout << endl;
-}
-
-ll largest_value(ll n)
-{
-	vector<ll> a(n), b(n);
-	iota(a.begin(), a.end(), 1);
-	iota(b.rbegin(), b.rend(), 1);
-
-	vector<ll> result(n);
-	transform(a.begin(), a.end(), b.begin(), result.begin(), [](const ll& x, const ll& y) { return abs(x - y); });
-	return accumulate(result.begin(), result.end(), 0LL);
-}
 
 void solve()
 {
-	long long n, k;
-	cin >> n >> k;
+    ll n, k;
+    cin >> n >> k;
 
-	if (k % 2 != 0 || k > largest_value(n))
-	{
-		cout << "No" << endl;
-	}
-	else
-	{
-		vector<ll> ans(n);
-		iota(ans.begin(), ans.end(), 1);
-		for (int i = n, j = 1; i - j >= 0; i--, j++)
-		{
-			if (k == 0)
-				break;
+    vector<int> p(n);
+    iota(p.begin(), p.end(), 1);
 
-			if (k >= 2 * (i - j))
-			{
-				swap(ans[j - 1], ans[n - j]);
-				k -= 2 * (i - j);
-			}
-		}
+    ll i{0}, j{n - 1};
+    while (i < j)
+    {
+        if (k >= 2 * (j + 1 - p[i]))
+        {
+            k -= 2 * (j + 1 - p[i]);
+            swap(p[i], p[j]);
+            ++i;
+            --j;
 
-		cout << "Yes" << endl;
-		print_array(ans);
-	}
+            if (k == 0) break;
+        }
+        else
+            --j;
+    }
+
+    if (k == 0)
+    {
+        cout << "Yes" << endl;
+        for (const auto& x: p) cout << x << ' ';
+        cout << endl;
+    }
+    else
+        cout << "No" << endl;
 }
 
 int main()
 {
-	int tc;
-	cin >> tc;
+    int tc;
+    cin >> tc;
 
-	while (tc--)
-	{
-		solve();
-	}
-
-	return EXIT_SUCCESS;
+    while (tc--)
+    {
+        solve();
+    }
+    return EXIT_SUCCESS;
 }

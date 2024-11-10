@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(.)
 
 add_executable(codeforces
-        1178B.cpp)
+        1422B.cpp)
